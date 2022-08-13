@@ -1,0 +1,22 @@
+{
+  "name": "taller-mern",
+  "version": "1.0.0",
+  "description": "Taller del framework MERN para ITCR Proyecto De Ingenieria De Software GR 40, segundo semestre del 2022. Incluye una aplicación básica de notas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squesadav/taller-mern.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/squesadav/taller-mern/issues"
+  },
+  "homepage": "https://github.com/squesadav/taller-mern#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
