@@ -22,7 +22,7 @@ const Header = () => {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbarScroll" />
-
+    
         <Navbar.Collapse id="navbarScroll">
 
         <Nav className='m-auto'>
@@ -42,9 +42,10 @@ const Header = () => {
           style={{ maxHeight: '100px' }}
           navbarScroll
         >
-        <Nav.Link href="myNotes">
+          
+        <Nav.Link href="notes">
            My notes
-          <Link to='/myNotes'/>
+          <Link to='/notes'/>
         </Nav.Link>
         
         <NavDropdown title= 'User' id="basic-nav-dropdown">
