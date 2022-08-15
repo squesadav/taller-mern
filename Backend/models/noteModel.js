@@ -8,7 +8,7 @@ const noteSchema = mongoose.Schema(
     },
     content: {
       type: String,
-      required: true,
+      required: isContentRequired
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +20,10 @@ const noteSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+function isContentRequired() {
+  return typeof this.content !== "string";
+}
 
 const Note = mongoose.model("Note", noteSchema);
 

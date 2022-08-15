@@ -6,6 +6,11 @@ const generateToken = require("../utils/generateToken");
 const registerUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
+  if (!username || !password) {
+    res.status(400);
+    throw new Error("All fields need to be filled");
+  }
+
   const userExist = await User.findOne({ username });
 
   if (userExist) {

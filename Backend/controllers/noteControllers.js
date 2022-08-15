@@ -1,19 +1,24 @@
 const Note = require("../models/noteModel");
 const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
 
 const getNotes = asyncHandler(async (req, res) => {
-  const notes = await Note.find({ user: req.user_id });
+  const notes = await Note.find({ user: req.user._id });
   res.json(notes);
 });
 
 const createNotes = asyncHandler(async (req, res) => {
   const { noteName, content } = req.body;
 
-  if (!noteName || !content) {
+  if (!noteName) {
     res.status(400);
-    throw new Error("All fields needs to be filled");
+    throw new Error("All fields need to be filled");
   } else {
-    const note = new Note({ user: req.user._id, noteName, content });
+    const note = new Note({
+      user: req.user._id,
+      noteName,
+      content: content ?? "",
+    });
 
     const createdNote = await note.save();
 
@@ -22,7 +27,17 @@ const createNotes = asyncHandler(async (req, res) => {
 });
 
 const getNoteByID = asyncHandler(async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400);
+    throw new Error("Invalid note ID");
+  }
+
   const note = await Note.findById(req.params.id);
+
+  if (note.user.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error("This note does not belong to the logged user");
+  }
 
   if (note) {
     res.json(note);
@@ -33,6 +48,11 @@ const getNoteByID = asyncHandler(async (req, res) => {
 
 const updateNote = asyncHandler(async (req, res) => {
   const { noteName, content } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400);
+    throw new Error("Invalid note ID");
+  }
 
   const note = await Note.findById(req.params.id);
 
@@ -54,6 +74,11 @@ const updateNote = asyncHandler(async (req, res) => {
 });
 
 const deleteNote = asyncHandler(async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400);
+    throw new Error("Invalid note ID");
+  }
+
   const note = await Note.findById(req.params.id);
 
   if (note.user.toString() !== req.user._id.toString()) {
