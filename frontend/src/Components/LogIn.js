@@ -3,6 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link, Redirect, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
+import { useDispatch } from "react-redux";
 
 export default class LogIn extends Component {
   constructor(props) {

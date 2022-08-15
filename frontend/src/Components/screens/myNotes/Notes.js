@@ -9,6 +9,7 @@ import {
   Badge,
 } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import MainScreen from "../../MainScreen";
 import notes from "../../data/myNotes";
 import axios from "axios";
@@ -17,24 +18,57 @@ export default class Notes extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userInfo: JSON.parse(localStorage.getItem("userInfo")),
       data: [],
+      error: false,
     };
-    this.deleteHandler = this.deleteHandler.bind(this);
+
+    this.onChangeError = this.onChangeError.bind(this);
   }
 
-  componentDidMount() {
-    axios
-      .get("/api/notes")
-      .then((response) => {
-        this.state.data = response.data;
-      })
-      .finally(() => {
-        this.forceUpdate();
-      });
+  async componentDidMount() {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.state.userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/notes`, config);
+
+      this.state.data = data;
+      console.log(data);
+      this.forceUpdate();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  deleteHandler(id) {
-    console.log("ok");
+  onChangeError(value) {
+    this.setState({
+      error: value,
+    });
+  }
+
+  async editNote(id) {
+    localStorage.setItem("noteInfo", JSON.stringify(id));
+    window.location.replace("/createNotes");
+  }
+
+  async deleteNote(id) {
+    console.log(id);
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.state.userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.delete(`/api/notes/${id}`, config);
+      window.location.reload();
+    } catch (error) {
+      this.onChangeError(true);
+    }
   }
 
   render() {
@@ -62,13 +96,25 @@ export default class Notes extends Component {
                       }}
                     >
                       <Accordion.Button as={Card.Text} variant="link">
-                        {note.title}
+                        {note.noteName}
                       </Accordion.Button>
                     </span>
 
                     <div>
-                      <Button href={`/note/${note._id}`}>Edit</Button>
-                      <Button variant="danger" className="mx-2">
+                      <Button
+                        onClick={() => {
+                          this.editNote(note._id);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="mx-2"
+                        onClick={() => {
+                          this.deleteNote(note._id);
+                        }}
+                      >
                         Delete
                       </Button>
                     </div>
@@ -76,9 +122,9 @@ export default class Notes extends Component {
                   <Accordion.Collapse eventkey="0">
                     <Card.Body>
                       <blockquote className="blockquote mb-0">
-                        <p>{note.content}</p>
+                        <ReactMarkdown>{note.content}</ReactMarkdown>
                         <footer className="blockquote-footer">
-                          Creater on - date
+                          Created on {note.createdAt.substring(0, 10)}
                         </footer>
                       </blockquote>
                     </Card.Body>
