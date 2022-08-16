@@ -18,5 +18,4 @@ router
   .put(protect, updateNote)
   .delete(protect, deleteNote);
 
-
 module.exports = router;

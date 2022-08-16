@@ -71,11 +71,12 @@ export default class createNotes extends Component {
       const content = this.state.markDown;
 
       if (this.state.new) {
-        const { data } = await axios.put(
-          `/api/create`,
+        const { data } = await axios.post(
+          `/api/notes/create`,
           { noteName: noteName, content: content },
           config
         );
+        this.state.noteId = data._id;
         console.log(data);
         this.state.new = false;
       } else {
