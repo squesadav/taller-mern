@@ -11,9 +11,11 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import MainScreen from "../../MainScreen";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 import ReactDom from "react-dom";
 import "./createNotes.css";
 import axios from "axios";
+import { Scrollbar } from 'react-scrollbars-custom';
 
 export default class createNotes extends Component {
   constructor(props) {
@@ -111,6 +113,7 @@ export default class createNotes extends Component {
     return (
       <React.Fragment>
         <Container>
+        <Link to="/notes">
           <Button
             variant="success"
             onClick={() => {
@@ -119,6 +122,8 @@ export default class createNotes extends Component {
           >
             Save note
           </Button>
+        </Link>
+          
           <Link to="/notes">
             <Button variant="danger" className="mx-2">
               Cancel
@@ -145,10 +150,18 @@ export default class createNotes extends Component {
                   onChange={this.setMarkdown}
                   className="textarea"
                 ></textarea>
-                <div className="output">
-                  <ReactMarkdown>{this.state.markDown}</ReactMarkdown>
-                </div>
+                
               </Container>
+              <div className="text-center"  >
+                Vista Previa
+              </div>
+              <h1></h1>
+              <Container>
+              <blockquote className="blockquote mb-0">
+                  <ReactMarkdown children={this.state.markDown} remarkPlugins={[remarkGfm]} />
+              </blockquote>
+              </Container>
+              
             </Card.Body>
           </Card>
         </Container>

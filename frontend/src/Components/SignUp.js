@@ -154,33 +154,6 @@ export default class SignUp extends Component {
                 onChange={this.onChangenombreCompleto}
               ></input>
             </div>
-
-            <div className="form-group">
-              <label>Email Adress</label>
-              <input
-                type="text"
-                name="fullname"
-                required
-                className="form-control"
-                placeholder="Your email adress......"
-                value={this.state.email}
-                onChange={this.onChangeemail}
-              ></input>
-            </div>
-
-            <div className="form-group">
-              <label>Birthday </label>
-              <div>
-                <DatePicker
-                  name="birthday"
-                  selected={this.state.fechaNacimiento}
-                  onChange={this.onChangefechaNacimiento}
-                />
-              </div>
-            </div>
-
-            <div>{this.state.noMatch}</div>
-
             <Button
               onClick={() => {
                 this.validateData(this.state.username, this.state.password);

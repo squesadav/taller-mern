@@ -4,28 +4,32 @@
     box-sizing: border-box;
     font-family: "poppins";
   }
-  /* This is a small project so why use two css files so i deleted the app.css and i will use index.css */
-  body {
-    
-  }
-  
   .textarea {
-    width: 35vw;
+    width: 70vw;
     height: 540px;
     background: #f1f1f1;
     border-radius: 10px;
     outline: none;
     padding: 10px;
     font-size: 18px;
+    resize: none;
   }
   .output {
-    font-size: 18px;
+    
     width: 35vw;
     height: 540px;
     background: #222;
     border-radius: 10px;
     margin-left: 20px;
+    outline: none;
     padding: 10px;
     color: #fff;
     line-height: 3rem;
+    font-size: 18px;
   }
+  
+.text-center {
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(64, 255, 0);
+}

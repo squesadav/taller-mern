@@ -10,6 +10,8 @@ import {
 } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
+
 import MainScreen from "../../MainScreen";
 import notes from "../../data/myNotes";
 import axios from "axios";
@@ -122,7 +124,8 @@ export default class Notes extends Component {
                   <Accordion.Collapse eventkey="0">
                     <Card.Body>
                       <blockquote className="blockquote mb-0">
-                        <ReactMarkdown>{note.content}</ReactMarkdown>
+                        <ReactMarkdown children={note.content} remarkPlugins={[remarkGfm]} />
+                        
                         <footer className="blockquote-footer">
                           Created on {note.createdAt.substring(0, 10)}
                         </footer>
